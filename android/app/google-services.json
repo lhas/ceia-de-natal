@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "794480080195",
+    "firebase_url": "https://e1dev-178213.firebaseio.com",
+    "project_id": "e1dev-178213",
+    "storage_bucket": "e1dev-178213.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:794480080195:android:95b41a39fe57557b",
+        "android_client_info": {
+          "package_name": "com.ceiadenatalapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "794480080195-ueud8toi4bqnjdch9k0bqv27os8cn8gt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBCpJp67ymnzgthcjvpmpS_9roBCJ-vLGI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
