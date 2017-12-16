@@ -8,19 +8,35 @@ import {
 } from 'react-native';
 import firebase from 'react-native-firebase';
 
+const styles = {
+  startButton: {
+  },
+  container: {
+    padding: 20,
+  },
+  recipeCard: {
+    backgroundColor: '#FFF',
+    marginTop: 10,
+    marginBottom: 10,
+    padding: 15,
+    elevation: 4,
+  }
+};
+
 export default class StartScreen extends Component {
   state = {
-    isAuthenticated: false,
+    recipes: {},
   };
 
-  componentDidMount() {
-    firebase.auth().signInAnonymously()
-      .then(() => {
-        console.log('logou!');
-        this.setState({
-          isAuthenticated: true,
-        });
-      });
+  async componentDidMount() {
+    await this.fetchRecipes();
+  }
+
+  async fetchRecipes() {
+    const recipes = await firebase.database().ref('recipes').once('value');
+    this.setState({
+      recipes: recipes.val(),
+    });
   }
 
   handleStartButton = () => {
@@ -28,16 +44,15 @@ export default class StartScreen extends Component {
   }
 
   render() {
-    // If the user has not authenticated
-    if (!this.state.isAuthenticated) {
-      return <Text>Loading...</Text>;
-    }
+    const { recipes } = this.state;
     return (
-      <View>
-        <Text>
-          Ceia de Natal
-        </Text>
-        <Button title="Iniciar" onPress={this.handleStartButton} />
+      <View style={styles.container}>
+        <Text>Receitas:</Text>
+        {Object.keys(recipes).map(v => (
+          <View style={styles.recipeCard} key={recipes[v].name}>
+            <Text>{recipes[v].name}</Text>
+          </View>
+        ))}
       </View>
     );
   }
