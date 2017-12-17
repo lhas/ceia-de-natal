@@ -25,6 +25,7 @@ const styles = {
 export default class StartScreen extends Component {
   state = {
     recipes: {},
+    ownRecipes: {},
   };
 
   async componentDidMount() {
@@ -45,13 +46,29 @@ export default class StartScreen extends Component {
       <H2 style={{margin: 20}}>Sua Cesta de Receitas</H2>
       <Content>
       <List>
-        <SwipeRow
-        body={
-          <View style={{padding: 5}}>
-            <Text>Você ainda não possui nenhuma receita</Text>
-          </View>
-        }
-      />
+        {Object.keys(this.state.ownRecipes).length === 0 && (
+          <SwipeRow
+          body={
+            <View style={{padding: 5}}>
+              <Text>Você ainda não possui nenhuma receita</Text>
+            </View>
+          }
+          />
+        )}
+        {Object.keys(this.state.ownRecipes).map((v) => (
+          <SwipeRow
+          body={
+            <View style={{padding: 5}}>
+              <Text>{this.state.ownRecipes[v].name}</Text>
+            </View>
+          }
+          right={
+            <Button danger onPress={() => alert('Trash')}>
+              <Icon active name="trash" />
+            </Button>
+          }
+          />
+        ))}
       </List>
       </Content>
       <H2 style={{ margin: 20, }}>Receitas Disponíveis</H2>
@@ -60,11 +77,17 @@ export default class StartScreen extends Component {
         {Object.keys(recipes).map((v) => (
           <SwipeRow
           key={recipes[v].name}
+          leftOpenValue={75}
           rightOpenValue={-75}
           body={
             <View style={{padding: 5}}>
               <Text>{recipes[v].name}</Text>
             </View>
+          }
+          left={
+            <Button success onPress={() => alert('Add')}>
+              <Icon active name="add" />
+            </Button>
           }
           right={
             <Button danger onPress={() => alert('Trash')}>
