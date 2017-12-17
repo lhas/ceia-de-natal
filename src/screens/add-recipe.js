@@ -4,7 +4,7 @@ import {
   StyleSheet,
 } from 'react-native';
 import firebase from 'react-native-firebase';
-import { Container, Header, View, Button, Icon, Form, Item, Input, H1, H2, H3, Text, Card, CardItem, Right, List, ListItem, Body, Thumbnail, Left, } from 'native-base';
+import { Container, Content, View, Button, Icon, Form, Item, Input, H1, H2, H3, Text, Card, CardItem, Right, List, ListItem, Body, Thumbnail, Left, } from 'native-base';
 
 const styles = {
   startButton: {
@@ -27,10 +27,16 @@ export default class AddRecipeScreen extends Component {
     ingredient: '',
     ingredients: [],
   };
-
+  
   handleChangeIngredient = (text) => {
     this.setState({
       ingredient: text,
+    });
+  }
+    
+  handleChangeName = (text) => {
+    this.setState({
+      name: text,
     });
   }
 
@@ -54,37 +60,47 @@ export default class AddRecipeScreen extends Component {
     });
   }
 
+  async handleSubmit() {
+    firebase.database().ref(`recipes/${this.state.name}`).set(this.state).then(() => {
+      this.props.navigation.navigate('Home');
+    });
+  }
+
   render() {
     const { recipes, ingredient, ingredients } = this.state;
     return (
-      <Container style={{ padding: 20 }}>
+    <Container style={{ padding: 20 }}>
+      <Content>
         <Form>
           <Item>
-            <Input placeholder="Nome" />
+            <Input value={this.state.name} onChangeText={(text) => this.handleChangeName(text)} placeholder="Nome" />
           </Item>
           <Item>
             <View style={{ flex: 1, flexDirection: 'row', marginTop: 20, }}>
               <Input value={this.state.ingredient} onChangeText={(text) => this.handleChangeIngredient(text)} placeholder="Nome do Ingrediente" />
-              <Button onPress={this.handleSubmitIngredient}>
-                <Text><Icon name="add" style={{color: '#FFF'}} /></Text>
+              <Button transparent light onPress={this.handleSubmitIngredient}>
+                <Text><Icon name="add" /></Text>
               </Button>
             </View>
           </Item>
         </Form>
-        <List>
+        <List elevation={2} style={{ marginTop: 20, marginBottom: 20 }}>
           {ingredients.map(v => (
-          <ListItem key={v.name} avatar>
-            <Body>
-              <Text note>{v.name}</Text>
+          <ListItem elevation={10} key={v.name} avatar>
+            <Body style={{ borderBottomWidth: 0 }}>
+              <Text>{v.name}</Text>
+              <Text note>Ingrediente</Text>
             </Body>
-            <Right>
-              <Button onPress={() => this.handleDeleteIngredient(v.name)} danger>
-                <Text><Icon name="trash" style={{color: '#FFF'}} /></Text>
+            <Right style={{ borderBottomWidth: 0 }}>
+              <Button transparent light onPress={() => this.handleDeleteIngredient(v.name)}>
+                <Text><Icon name="trash" style={{color: '#f44336'}} /></Text>
               </Button>
             </Right>
           </ListItem>
           ))}
         </List>
+        <Button style={{marginLeft: 20}} onPress={() => this.handleSubmit()} full success><Text>Adicionar Receita</Text></Button>
+      </Content>
     </Container>
     );
   }

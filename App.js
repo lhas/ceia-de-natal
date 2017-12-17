@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import {
   StackNavigator,
 } from 'react-navigation';
-import StartScreen from './src/screens/start';
+import RecipesScreen from './src/screens/recipes';
 import AddRecipeScreen from './src/screens/add-recipe';
   
 const App = StackNavigator({
   Home: {
-    screen: StartScreen,
+    screen: RecipesScreen,
     navigationOptions: {
       headerTitle: 'Ceia de Natal',
     },
@@ -15,7 +15,7 @@ const App = StackNavigator({
   AddRecipe: {
     screen: AddRecipeScreen,
     navigationOptions: {
-      headerTitle: 'Adicionar Receita',
+      headerTitle: 'Nova Receita',
     },
   },
 });
